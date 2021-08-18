@@ -1,6 +1,11 @@
+const prefix = /^https:\/\//;
+const countries = ["www.amazon.co.jp", "www.amazon.com", "www.amazon.fr"];
+const dp = "dp";
+const itemKey = /^[0-9A-Z]+$/;
+
 browser.contextMenus.create({
-  id: "url-shaving",
-  title: "url shaving",
+  id: "pufiry-amazon-url",
+  title: "purify amazon url",
   contexts: ["all"],
 });
 
@@ -13,15 +18,11 @@ function onError(error) {
 }
 
 function urlShaving(str) {
-  var removed = str.replace(/^https:\/\//, "");
-  var splitUrl = removed.split("/");
+  var splitUrl = str.replace(prefix, "").split("/");
   var resultArray = [];
   for (var i = 0; i < splitUrl.length; i++) {
     var s = splitUrl[i];
-    if (s == "www.amazon.co.jp"
-        || s == "www.amazon.com" 
-        || s == "dp" 
-        || /^[0-9A-Z]+$/.test(s)) {
+    if (countries.includes(s) || s == dp || itemKey.test(s)) {
       resultArray.push(s);
     } else {
       continue;
@@ -31,14 +32,24 @@ function urlShaving(str) {
 }
 
 browser.contextMenus.onClicked.addListener((info, tab) => {
-  switch (info.menuItemId) {
-    case "url-shaving":
-      let trueUrl = "https://developer.mozilla.org";
-      let currentUrl = tab.url;
+  if (info.menuItemId == "pufiry-amazon-url") {
+    let currentUrl = tab.url;
+    var flag = false;
+    for (var i = 0; i < countries.length; i++) {
+      var c = countries[i];
+      if (currentUrl.includes(c)) {
+        flag = true;
+        break;
+      } else {
+        continue;
+      }
+    }
+    if (!flag) {
+      throw Error("This is not Amazon's page.");
+    } else {
       let newUrl = urlShaving(currentUrl);
-      console.log(newUrl);
       var updating = browser.tabs.update({ url: newUrl });
       updating.then(onUpdated, onError);
-      break;
+    }
   }
-});
+})
