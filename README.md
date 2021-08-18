@@ -1,6 +1,6 @@
 # purify-amazon-url
 
-An extention for Firefox that purify Amazon URL.
+An extention for Firefox that purifies Amazon URL and reload tab.
 
 ## example
 ```

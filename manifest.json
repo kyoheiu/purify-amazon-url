@@ -4,7 +4,7 @@
   "name": "purify Amazon URL",
   "version": "1.0",
 
-  "description": "purify bloated url of Amazon and reload page.",
+  "description": "purify bloated url of Amazon and reload tab.",
 
   "icons": {
     "48": "icons/48.png"
