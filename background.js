@@ -18,7 +18,10 @@ function urlShaving(str) {
   var resultArray = [];
   for (var i = 0; i < splitUrl.length; i++) {
     var s = splitUrl[i];
-    if (s == "www.amazon.co.jp" || s == "dp" || /^[0-9]+$/.test(s)) {
+    if (s == "www.amazon.co.jp"
+        || s == "www.amazon.com" 
+        || s == "dp" 
+        || /^[0-9A-Z]+$/.test(s)) {
       resultArray.push(s);
     } else {
       continue;
