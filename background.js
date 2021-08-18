@@ -1,23 +1,41 @@
 browser.contextMenus.create({
-    id: "url-shaving",
-    title: "url shaving",
-    contexts: ["all"]
-})
+  id: "url-shaving",
+  title: "url shaving",
+  contexts: ["all"],
+});
 
 function onUpdated(tab) {
-    console.log(`Updated tab: ${tab.id}`);
-  }
-  
-  function onError(error) {
-    console.log(`Error: ${error}`);
-  }
-  
+  console.log(`Updated tab: ${tab.id}`);
+}
 
-browser.contextMenus.onClicked.addListener((info,tab) => {
-    switch (info.menuItemId) {
-        case "url-shaving":
-            var updating = browser.tabs.update({url: "https://developer.mozilla.org"});
-            updating.then(onUpdated, onError);
-            break;
+function onError(error) {
+  console.log(`Error: ${error}`);
+}
+
+function urlShaving(str) {
+  var removed = str.replace(/^https:\/\//, "");
+  var splitUrl = removed.split("/");
+  var resultArray = [];
+  for (var i = 0; i < splitUrl.length; i++) {
+    var s = splitUrl[i];
+    if (s == "www.amazon.co.jp" || s == "dp" || /^[0-9]+$/.test(s)) {
+      resultArray.push(s);
+    } else {
+      continue;
     }
-})
+  }
+  return "https://" + resultArray.join("/");
+}
+
+browser.contextMenus.onClicked.addListener((info, tab) => {
+  switch (info.menuItemId) {
+    case "url-shaving":
+      let trueUrl = "https://developer.mozilla.org";
+      let currentUrl = tab.url;
+      let newUrl = urlShaving(currentUrl);
+      console.log(newUrl);
+      var updating = browser.tabs.update({ url: newUrl });
+      updating.then(onUpdated, onError);
+      break;
+  }
+});
