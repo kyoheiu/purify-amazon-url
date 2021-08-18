@@ -10,4 +10,4 @@ https://www.amazon.com/dp/B004VB3V0K
 ```
 
 ## usage
-Install via addons.mozilla.org and just right-click and choose "purify Amazon URL" to reload Amazon page with purified URL.
+Just right-click and choose "purify Amazon URL" to reload Amazon page with purified URL.
