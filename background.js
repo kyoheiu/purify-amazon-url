@@ -5,7 +5,7 @@ const itemKey = /^[0-9A-Z]+$/;
 
 browser.contextMenus.create({
   id: "pufiry-amazon-url",
-  title: "purify amazon url",
+  title: "purify Amazon URL",
   contexts: ["all"],
 });
 
