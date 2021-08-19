@@ -1,5 +1,5 @@
 const prefix = /^https:\/\//;
-const countries = ["www.amazon.co.jp", "www.amazon.com", "www.amazon.fr"];
+const countries = /^www\.amazon\.[a-z\.]+$/;
 const dp = "dp";
 const itemKey = /^[0-9A-Z]+$/;
 
@@ -22,7 +22,7 @@ function urlShaving(str) {
   var resultArray = [];
   for (var i = 0; i < splitUrl.length; i++) {
     var s = splitUrl[i];
-    if (countries.includes(s) || s == dp || itemKey.test(s)) {
+    if (countries.test(s) || itemKey.test(s) || s == dp) {
       resultArray.push(s);
     } else {
       continue;
@@ -34,22 +34,12 @@ function urlShaving(str) {
 browser.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId == "pufiry-amazon-url") {
     let currentUrl = tab.url;
-    var flag = false;
-    for (var i = 0; i < countries.length; i++) {
-      var c = countries[i];
-      if (currentUrl.includes(c)) {
-        flag = true;
-        break;
-      } else {
-        continue;
-      }
-    }
-    if (!flag) {
-      throw Error("This is not Amazon's page.");
-    } else {
+    if ((/www\.amazon\.[a-z]+/).test(currentUrl)) {
       let newUrl = urlShaving(currentUrl);
       var updating = browser.tabs.update({ url: newUrl });
       updating.then(onUpdated, onError);
+    } else {
+      throw Error("This is not Amazon's page.");
     }
   }
 })
