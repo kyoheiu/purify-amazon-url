@@ -1,6 +1,6 @@
-# purify-amazon-url
+[purify Amazon URL – Get this Extension for 🦊 Firefox (en-US)](https://addons.mozilla.org/en-US/firefox/addon/purify-amazon-url/)
 
-An extention for Firefox that purifies Amazon URL and reload tab.
+An extention for Firefox that purifies Amazon URL and reloads tab.
 
 ## example
 ```
