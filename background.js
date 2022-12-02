@@ -1,7 +1,7 @@
 const prefix = /^https:\/\//;
 const countries = /^www\.amazon\.[a-z\.]+$/;
 const dp = "dp";
-const itemKey = /^[0-9A-Z]+$/;
+const itemKey = /^[0-9A-Z]{9}\?/;
 
 browser.contextMenus.create({
   id: "pufiry-amazon-url",
@@ -22,7 +22,10 @@ function urlShaving(str) {
   var resultArray = [];
   for (var i = 0; i < splitUrl.length; i++) {
     var s = splitUrl[i];
-    if (countries.test(s) || itemKey.test(s) || s == dp) {
+    if (countries.test(s) || s == dp) {
+      resultArray.push(s);
+    } else if (itemKey.test(s)) {
+      const key = s.slice(0, 9);
       resultArray.push(s);
     } else {
       continue;
@@ -42,4 +45,4 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
       throw Error("This is not Amazon's page.");
     }
   }
-})
+});
