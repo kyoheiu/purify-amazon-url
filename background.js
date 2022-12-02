@@ -1,7 +1,7 @@
 const prefix = /^https:\/\//;
 const countries = /^www\.amazon\.[a-z\.]+$/;
 const dp = "dp";
-const itemKey = /^[0-9A-Z]{9,10}\?/;
+const itemKey = /^[0-9A-Z]{10}\?/;
 
 browser.contextMenus.create({
   id: "pufiry-amazon-url",
