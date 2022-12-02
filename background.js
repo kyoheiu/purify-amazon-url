@@ -1,7 +1,7 @@
 const prefix = /^https:\/\//;
 const countries = /^www\.amazon\.[a-z\.]+$/;
 const dp = "dp";
-const itemKey = /^[0-9A-Z]{9}\?/;
+const itemKey = /^[0-9A-Z]{9,10}\?/;
 
 browser.contextMenus.create({
   id: "pufiry-amazon-url",
@@ -25,8 +25,8 @@ function urlShaving(str) {
     if (countries.test(s) || s == dp) {
       resultArray.push(s);
     } else if (itemKey.test(s)) {
-      const key = s.slice(0, 9);
-      resultArray.push(s);
+      const key = s.slice(0, 10);
+      resultArray.push(key);
     } else {
       continue;
     }
