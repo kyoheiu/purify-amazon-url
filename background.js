@@ -26,6 +26,9 @@ function urlShaving(str) {
       resultArray.push(s);
     } else if (itemKey.test(s)) {
       const key = s.slice(0, 10);
+      if (!resultArray.includes(dp)) {
+        resultArray.push(dp);
+      }
       resultArray.push(key);
     } else {
       continue;
